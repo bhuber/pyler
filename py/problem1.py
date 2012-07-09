@@ -8,7 +8,7 @@ If we list all the natural numbers below 10 that are multiples of 3 or 5, we get
 Find the sum of all the multiples of 3 or 5 below 1000.
 """
 
-def sum(start, end, divisors=[3, 5]):
+def sumv1(start, end, divisors=[3, 5]):
     result = 0
     for i in xrange(start, end):
         for d in divisors:
@@ -18,10 +18,20 @@ def sum(start, end, divisors=[3, 5]):
 
     return result
 
+def sumv2(start, end, divisors=[3, 5]):
+    def isMultiple(i):
+        if any(map(lambda d: i % d == 0, divisors)):
+            return i
+        else:
+            return 0
+
+    return sum(map(isMultiple, xrange(start, end)))
+
 
 def main():
     #print("Hello World!")
-    print(sum(1, 1000))
+    #print(sumv1(1, 1000))
+    print(sumv2(1, 1000))
 
 main()
 
