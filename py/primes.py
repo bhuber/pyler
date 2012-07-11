@@ -25,6 +25,33 @@ class PrimeGenerators(object):
         primes = [2]
         i = 3
         while len(primes) < n:
+            i = _add_prime(primes, i)
+            yield i
+
+    @staticmethod
+    def primes_less_than(n):
+        '''
+        Generates all primes less than n
+        '''
+
+        if n < 2:
+            raise StopIteration
+        else:
+            yield 2
+        
+        primes = [2]
+        i = 3
+        while True:
+            i = PrimeGenerators._add_prime(primes, i)
+            if i > n:
+                raise StopIteration
+
+            yield i
+            i += 1
+
+    @staticmethod
+    def _add_prime(primes, i):
+        while True:
             isprime = True
             for d in primes[0:int(math.sqrt(primes[-1]))]:
                 if i % d == 0:
@@ -33,7 +60,9 @@ class PrimeGenerators(object):
 
             if isprime:
                 primes.append(i)
-                yield i
+                #if len(primes) % 1000 == 0:
+                    #print(i)
+                return i
 
             i += 1
 
