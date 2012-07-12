@@ -39,9 +39,28 @@ def problem12(n):
         if n_divisors > n:
             return t
 
+def problem12_v2(n):
+    i = 2
+    counts = [0, 0, 1]
+    while True:
+        t = i * (i + 1) / 2
+        counts.append(PrimeMethods.n_divisors(i + 1))
+        n_factors = None
+        if (i & 1) == 0:
+            n_factors = counts[i / 2] * counts[i + 1]
+        else:
+            n_factors = counts[(i + 1) / 2] * counts[i]
+
+        if n_factors > n:
+            return t
+
+        i += 1
+
+
+
 def main():
     #print("Hello World!")
-    print(problem12(5000))
+    print(problem12_v2(500))
 
 
 main()

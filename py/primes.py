@@ -107,6 +107,10 @@ class PrimeMethods(object):
     '''
 
     @staticmethod
+    def n_divisors(n):
+        return PrimeMethods.n_factors(PrimeMethods.get_prime_factors(n))
+
+    @staticmethod
     def n_factors(divisors):
         '''
         divisors is a dictionary, where key is a prime factor and value is its exponent
@@ -129,10 +133,10 @@ class PrimeMethods(object):
 
         sqrt_n = math.sqrt(n)
         prime_max = sqrt_n
-
         i = 0
         p = 2
         result = { }
+
         while p < prime_max and p < sqrt_n and n > 1:
             p = PrimeMethods._prime_gen[i]
             i += 1
@@ -154,7 +158,6 @@ class PrimeMethods(object):
             result[n] = 1
 
         return result
-
 
 
     _prime_gen = PrimeGenerators()
