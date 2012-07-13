@@ -85,6 +85,9 @@ class PrimeGenerators(object):
 
     @staticmethod
     def _add_prime(primes, i):
+        if (i & 1) == 0:
+            i += 1
+
         while True:
             isprime = True
             for d in primes[0:int(math.sqrt(primes[-1]))]:
@@ -98,7 +101,7 @@ class PrimeGenerators(object):
                     #print(i)
                 return i
 
-            i += 1
+            i += 2
 
 
 class PrimeMethods(object):
