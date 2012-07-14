@@ -111,21 +111,30 @@ class PrimeMethods(object):
 
     @staticmethod
     def n_divisors(n):
-        return PrimeMethods.n_factors(PrimeMethods.get_prime_factors(n))
+        return PrimeMethods.sopdf(PrimeMethods.get_prime_factors(n))
 
     @staticmethod
-    def n_factors(divisors):
-        '''
-        divisors is a dictionary, where key is a prime factor and value is its exponent
-        for example, the dictionary for 18 would be { 2: 1, 3: 2 }
-        '''
+    def sopdf(n, k=0):
+        """
+        Sum of Prime Divisors function
+        if d_1, d_2, ..., d_n represent the divisors of n, 
+        returns sum(d_i ** k)
+        uses formula for sigma_k on http://en.wikipedia.org/wiki/Divisor_function
+        """
+        factors = PrimeMethods.get_prime_factors(n)
+        result = 1
+        for p in factors.keys():
+            sum_of_exp = 1
+            current = 1
+            p_k = p ** k
+            for i in xrange(1, factors[p] + 1):
+                current *= p_k
+                sum_of_exp += current
 
-        #see http://en.wikipedia.org/wiki/Divisor_function
-        keys_plus_1 = map(lambda a: a + 1, divisors.values())
-        if len(keys_plus_1) > 1:
-            return reduce(lambda a, b: a * b, keys_plus_1)
-        else:
-            return len(keys_plus_1)
+            result *= sum_of_exp
+
+        return result
+            
 
     @staticmethod
     def get_prime_factors(n):
