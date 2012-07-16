@@ -120,9 +120,7 @@ def first_n_digits(string, n):
     return int(string[-1 * n:])
 
 def problem13(n):
-    nums = data.split("\n")
-    nums = map(lambda a: int(a), nums)
-    return sum(nums)
+    return sum([int(a) for a in data.split("\n")])
 
 
 def main():
