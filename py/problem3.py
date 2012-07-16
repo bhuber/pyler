@@ -47,4 +47,7 @@ while (gotprimefactor == 0):
     if isprimefactor(biggernum, biggestnum):
         gotprimefactor = 1
 
-print biggernum, ' is a prime factor of ', biggestnum
+if (biggernum>1):
+    print biggernum, ' is a prime factor of ', biggestnum
+else:
+    print biggestnum, 'is itself prime.'
