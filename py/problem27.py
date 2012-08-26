@@ -59,7 +59,8 @@ def problem27(alow, ahigh, bhigh):
 
 def main():
     #print("Hello World!")
-    print(problem27(-1000, 1001, 1001))
+    nab = problem27(-1000, 1001, 1001)
+    print(str(nab) + ": " + str(nab[1] * nab[2]))
 
 
 main()
