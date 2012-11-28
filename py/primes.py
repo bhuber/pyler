@@ -30,6 +30,36 @@ class PrimeGenerators(object):
 
         return self._primes[nth_prime]
 
+    def isprime(self, n):
+        i = self._primes[-1] + 1
+        while n > self._primes[-1]:
+            i = PrimeGenerators._add_prime(self._primes, i)
+            i += 1
+
+        return PrimeGenerators.find(self._primes, n) >= 0
+
+    @staticmethod
+    def find(l, s, d=-1):
+        lo = 0
+        hi = len(l) - 1
+        if hi < 1 or s < l[lo] or s > l[hi]:
+            return d
+
+        while lo < hi:
+            mid = (lo + hi) / 2
+            t = l[mid]
+            if t < s:
+                lo = mid + 1
+            elif t > s:
+                hi = mid - 1
+            else:
+                return mid
+
+        mid = (lo + hi) / 2
+        t = l[mid]
+        return mid if (lo == hi and s == t) else d
+        
+
 
     @staticmethod
     def first_n_primes(n):
