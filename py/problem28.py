@@ -35,7 +35,7 @@ def problem28(n):
              = f(1) + f(3) + ... + f(n)
              = 1 + (4 * 1^2 + 10 * 2) + (4 * 3^2 + 10 * 4) + ... + 
                  (4 * k_i^2 + 10 + k_(i + 1)) + ... + (4 * n_2^2 + 10 * n_1)
-             = 1 + sum(4 * (2i + 1)^2 + 10 * (2(i + 1)), i, i = 1, i < floor(n/2))
+             = 1 + sum(4 * (2i - 1)^2 + 10 * (2(i + 1)), i, i = 1, i < floor(n/2))
              = 1 + 4 * sum((odd numbers less than n) squared) + 10 * sum(even numbers less than n)
 
     let s(n)    = sum of i <= n
