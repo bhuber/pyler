@@ -56,7 +56,6 @@ def combo_string(b, n):
     result = [{ 'digit': 0, 'next_try': 0 } for _ in xrange(n - 1)]
 
     while nf < total:
-        #import ipdb; ipdb.set_trace()
         if result[-1]['next_try'] == b:
             # Tried all our digits, backtrack
             found[digits_to_num(b, to_digits(result[-n:]))] -= 1
@@ -86,7 +85,13 @@ def combo_string(b, n):
     return [i['digit'] for i in result]
 
 
-if __name__ == 'main':
-    print("Testing for base 3, digits 2")
+if __name__ == '__main__':
+    print("Testing for base 3, 2 digits")
     print(combo_string(3, 2))
+    print("\n")
+
+    print("Ok, now for the real problem: base 10, 4 digits:")
+    result = combo_string(10, 4)
+    print(''.join([str(i) for i in result]))
+    print("Length: " + str(len(result)))
 
