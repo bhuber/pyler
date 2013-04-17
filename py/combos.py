@@ -1,5 +1,15 @@
 #!/usr/bin/python
 
+"""
+Our building is secured by locked doors with keypads. The keypads have 10 digits
+on them (0 - 9) and require a 4-digit access code to unlock the doors.
+Unfortunately, they were designed by Bob the Bungler, so rather than typing 4
+digits and hitting "Enter", they simply wait for the right sequence of digits to
+be pressed and then unlock. So for example if the code is "1234", and someone
+enters "2938470871234" it will open on the last digit. What is the minimum
+number of digits you have to enter to try all possible combinations?
+"""
+
 
 def digits_to_num(b, digits):
     """Given a list of digits in base b returns the actual number they represent"""
@@ -36,44 +46,44 @@ def combo_string(b, n):
     n:  The number of digits in an entry in base b
     """
 
+    def to_digits(d):
+        return [i['digit'] for i in d]
+
     total = b ** n
     found = [0 for _ in range(total)]
     nd = 0
     nf = 0
-    result = [0 for _ in xrange(n - 1)]
-    current = [0 for _ in xrange(n - 1)]
-    offset = 0
-    sanity = 0
+    result = [{ 'digit': 0, 'next_try': 0 } for _ in xrange(n - 1)]
 
     while nf < total:
-        if sanity > b:
-            raise Exception("Infinite loop encountered, bailing")
+        #import ipdb; ipdb.set_trace()
+        if result[-1]['next_try'] == b:
+            # Tried all our digits, backtrack
+            found[digits_to_num(b, to_digits(result[-n:]))] -= 1
+            nf -= 1
+            result.pop()
+            result[-1]['next_try'] += 1
+            continue
 
-        nd = find_next_free_digit(b, current, found, offset)
+        current = [i['digit'] for i in result[1 - n:]]
+        nd = find_next_free_digit(b, current, found, result[-1]['next_try'])
         if nd < 0:
-            if nd >= total:
+            if nf >= total:
                 return result
             else:
-                raise Exception("Ooops, algorithm failed, couldn't find next digit")
+                # backtrack
+                found[digits_to_num(b, to_digits(result[-n:]))] -= 1
+                nf -= 1
+                result.pop()
+                result[-1]['next_try'] += 1
+                continue
 
-        temp = current[1:]
-        temp.append(nd)
-        la1 = find_next_free_digit(b, temp, found)
-        if la1 < 0 and nf < total - 1:
-            #import ipdb; ipdb.set_trace()
-            offset += 1
-            sanity += 1
-            continue
-        else:
-            current.append(nd)
-            result.append(nd)
-            found[digits_to_num(b, current)] += 1
-            nf += 1
-            current = temp
-            sanity = 0
-            offset = 0
+        result.append({ 'digit': nd, 'next_try': 0 })
+        current.append(nd)
+        found[digits_to_num(b, current)] += 1
+        nf += 1
 
-    return result
+    return [i['digit'] for i in result]
 
 
 if __name__ == 'main':
