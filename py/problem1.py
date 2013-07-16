@@ -28,7 +28,7 @@ def sumv2(start, end, divisors=[3, 5]):
     return sum(map(isMultiple, xrange(start, end)))
 
 def sumv3(start, end, divisors=[3, 5]):
-    return sum(i for i in xrange(start, end) if any(map(lambda d: i % d == 0, divisors)))
+    return sum(i for i in xrange(start, end) if any(i % d == 0 for d in divisors))
 
 def main():
     print(sumv3(1, 1000))
