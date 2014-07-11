@@ -1,11 +1,12 @@
 #!/usr/local/bin/python
 
 """
-This is meant to be a module for dealing with primes
+This is a module for dealing with primes
 """
 
 import math
 import pdb
+
 
 class PrimeGenerators(object):
     '''
@@ -21,8 +22,6 @@ class PrimeGenerators(object):
         if nth_prime < len(self._primes):
             return self._primes[nth_prime]
 
-        
-        #pdb.set_trace()
         i = self._primes[-1] + 1
         while nth_prime >= len(self._primes):
             i = PrimeGenerators._add_prime(self._primes, i)
