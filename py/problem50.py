@@ -15,41 +15,40 @@ Which prime, below one-million, can be written as the sum of the most consecutiv
 
 from primes import PrimeGenerators
 from collections import deque
+from bisect import bisect_left
 
 _pg = PrimeGenerators()
 
 
-def find_longest_prime_sum(n):
-    primes = _pg
-    low_idx = 0
-    high_idx = 1
-    window = deque([primes[low_idx], primes[high_idx]])
-    psum = sum(window)
-    limit = n / 2
-    result = []
-    while primes[low_idx] < limit and len(window) > 0:
-        if psum < n:
-            high_idx += 1
-            np = primes[high_idx]
-            window.append(np)
-            psum += np
-        elif psum == n:
-            if len(result) < len(window):
-                result = list(window)
-            high_idx += 1
-            np = primes[high_idx]
-            window.append(np)
-            psum += np
-        elif psum > n:
-            low_idx += 1
-            np = window.popleft()
-            psum -= np
-
-    return result
-
-
 def find_prime_with_longest_sum(n):
-    prime_sums = [(p, find_longest_prime_sum(p)) for p in _pg.primes_less_than(n)]
+    primes = list(_pg.primes_less_than(n))
+    prime_sums = [[p, []] for p in primes]
+    length = len(primes)
+    for hi in xrange(1, length):
+        if hi % 5000 == 0:
+            print('Window max at %i' % hi)
+
+        p_hi = primes[hi]
+        if p_hi > n / 2:
+            break
+        window = deque([primes[hi]])
+        window_sum = primes[hi]
+        for low in xrange(hi - 1, -1, -1):
+            # work backwards so that when window_sum gets too big we can abort
+            np = primes[low]
+            window_sum += np
+            window.appendleft(np)
+            if window_sum > n:
+                break
+
+            # Binary search primes list to see if window_sum is prime (saves us a hashtable)
+            idx = bisect_left(primes, window_sum)
+            if idx != len(primes) and primes[idx] == window_sum:
+                entry = prime_sums[idx]
+                if len(entry[1]) < len(window):
+                    entry[1] = list(window)
+
+    # Return (prime, sum_list) pair with longest sum_list
     return max(prime_sums, key=lambda ps: len(ps[1]))
 
 
